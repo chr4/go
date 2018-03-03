@@ -54,16 +54,26 @@ type EffectsPage struct {
 	} `json:"_embedded"`
 }
 
-// EffectResponse contains effect data returned by Horizon.
-// Currently used by LoadAccountMergeAmount only.
 type Effect struct {
-	Type   string `json:"type"`
-	Amount string `json:"amount"`
+	Links struct {
+		Operation Link `json:"operation"`
+		Succeeds  Link `json:"succeeds"`
+		Precedes  Link `json:"precedes"`
+	} `json:"_links"`
+	ID              string `json:"id"`
+	PT              string `json:"paging_token"`
+	Account         string `json:"account"`
+	Amount          string `json:"amount"`
+	Type            string `json:"type"`
+	TypeI           int32  `json:"type_i"`
+	StartingBalance string `json:"starting_balance"`
+	Balance
+	Signer
 }
 
 // TradeAggregationsPage returns a list of aggregated trade records, aggregated by resolution
 type TradeAggregationsPage struct {
-	Links hal.Links `json:"_links"`
+	Links    hal.Links `json:"_links"`
 	Embedded struct {
 		Records []TradeAggregation `json:"records"`
 	} `json:"_embedded"`
@@ -74,7 +84,7 @@ type TradeAggregation = hProtocol.TradeAggregation
 
 // TradesPage returns a list of trade records
 type TradesPage struct {
-	Links hal.Links `json:"_links"`
+	Links    hal.Links `json:"_links"`
 	Embedded struct {
 		Records []Trade `json:"records"`
 	} `json:"_embedded"`
@@ -97,7 +107,7 @@ type Signer = hProtocol.Signer
 
 // OffersPage returns a list of offers
 type OffersPage struct {
-	Links hal.Links `json:"_links"`
+	Links    hal.Links `json:"_links"`
 	Embedded struct {
 		Records []Offer `json:"records"`
 	} `json:"_embedded"`

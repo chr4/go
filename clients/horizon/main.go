@@ -105,6 +105,7 @@ type ClientInterface interface {
 	LoadOrderBook(selling Asset, buying Asset, params ...interface{}) (orderBook OrderBookSummary, err error)
 	LoadTransaction(transactionID string) (transaction Transaction, err error)
 	SequenceForAccount(accountID string) (xdr.SequenceNumber, error)
+	StreamEffects(ctx context.Context, cursor *Cursor, handler EffectHandler) error
 	StreamLedgers(ctx context.Context, cursor *Cursor, handler LedgerHandler) error
 	StreamPayments(ctx context.Context, accountID string, cursor *Cursor, handler PaymentHandler) error
 	StreamTransactions(ctx context.Context, accountID string, cursor *Cursor, handler TransactionHandler) error
@@ -123,6 +124,9 @@ type HTTP interface {
 	Get(url string) (resp *http.Response, err error)
 	PostForm(url string, data url.Values) (resp *http.Response, err error)
 }
+
+// EffectHandler is a function that is called when a new effect is received
+type EffectHandler func(Effect)
 
 // LedgerHandler is a function that is called when a new ledger is received
 type LedgerHandler func(Ledger)

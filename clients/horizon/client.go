@@ -444,6 +444,26 @@ func (c *Client) stream(
 	}
 }
 
+// StreamEffects streams incoming effects. Use context.WithCancel to stop streaming or
+// context.Background() if you want to stream indefinitely.
+func (c *Client) StreamEffects(
+	ctx context.Context,
+	cursor *Cursor,
+	handler EffectHandler,
+) (err error) {
+	c.fixURLOnce.Do(c.fixURL)
+	url := fmt.Sprintf("%s/effects", c.URL)
+	return c.stream(ctx, url, cursor, func(data []byte) error {
+		var effect Effect
+		err = json.Unmarshal(data, &effect)
+		if err != nil {
+			return errors.Wrap(err, "Error unmarshaling data")
+		}
+		handler(effect)
+		return nil
+	})
+}
+
 // StreamLedgers streams incoming ledgers. Use context.WithCancel to stop streaming or
 // context.Background() if you want to stream indefinitely.
 func (c *Client) StreamLedgers(

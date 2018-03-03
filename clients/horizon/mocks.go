@@ -113,6 +113,12 @@ func (m *MockClient) SequenceForAccount(accountID string) (xdr.SequenceNumber, e
 	return a.Get(0).(xdr.SequenceNumber), a.Error(1)
 }
 
+// StreamEffects is a mocking a method
+func (m *MockClient) StreamEffects(ctx context.Context, cursor *Cursor, handler EffectHandler) error {
+	a := m.Called(ctx, cursor, handler)
+	return a.Error(0)
+}
+
 // StreamLedgers is a mocking a method
 func (m *MockClient) StreamLedgers(
 	ctx context.Context,
