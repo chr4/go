@@ -125,6 +125,23 @@ type HistoryAccount struct {
 	AccountID string `json:"account_id"`
 }
 
+type Effect struct {
+	Links struct {
+		Operation Link `json:"operation"`
+		Succeeds  Link `json:"succeeds"`
+		Precedes  Link `json:"precedes"`
+	} `json:"_links"`
+	ID              string `json:"id"`
+	PT              string `json:"paging_token"`
+	Account         string `json:"account"`
+	Amount          string `json:"amount"`
+	Type            string `json:"type"`
+	TypeI           int32  `json:"type_i"`
+	StartingBalance string `json:"starting_balance"`
+	Balance
+	Signer
+}
+
 type Ledger struct {
 	Links struct {
 		Self         Link `json:"self"`
