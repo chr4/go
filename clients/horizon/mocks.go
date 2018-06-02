@@ -101,6 +101,12 @@ func (m *MockClient) StreamEffects(ctx context.Context, cursor *Cursor, handler 
 	return a.Error(0)
 }
 
+// StreamOperations is a mocking a method
+func (m *MockClient) StreamOperations(ctx context.Context, cursor *Cursor, handler OperationHandler) error {
+	a := m.Called(ctx, cursor, handler)
+	return a.Error(0)
+}
+
 // StreamLedgers is a mocking a method
 func (m *MockClient) StreamLedgers(
 	ctx context.Context,

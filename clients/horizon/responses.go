@@ -142,6 +142,25 @@ type Effect struct {
 	Signer
 }
 
+type Operation struct {
+	Links struct {
+		Transaction Link `json:"transaction"`
+		Effects     Link `json:"effects"`
+		Succeeds    Link `json:"succeeds"`
+		Precedes    Link `json:"precedes"`
+	} `json:"_links"`
+	ID              string `json:"id"`
+	PT              string `json:"paging_token"`
+	Account         string `json:"account"`
+	SourceAccount   string `json:"source_account"`
+	Type            string `json:"type"`
+	TypeI           int32  `json:"type_i"`
+	StartingBalance string `json:"starting_balance"`
+	CreatedAt       string `json:"created_at"`
+	Funder          string `json:"funder"`
+	TransactionHash string `json:"transaction_hash"`
+}
+
 type Ledger struct {
 	Links struct {
 		Self         Link `json:"self"`

@@ -410,6 +410,26 @@ func (c *Client) StreamEffects(
 	})
 }
 
+// StreamOperations streams incoming operations. Use context.WithCancel to stop streaming or
+// context.Background() if you want to stream indefinitely.
+func (c *Client) StreamOperations(
+	ctx context.Context,
+	cursor *Cursor,
+	handler OperationHandler,
+) (err error) {
+	c.fixURLOnce.Do(c.fixURL)
+	url := fmt.Sprintf("%s/operations", c.URL)
+	return c.stream(ctx, url, cursor, func(data []byte) error {
+		var operation Operation
+		err = json.Unmarshal(data, &operation)
+		if err != nil {
+			return errors.Wrap(err, "Error unmarshaling data")
+		}
+		handler(operation)
+		return nil
+	})
+}
+
 // StreamLedgers streams incoming ledgers. Use context.WithCancel to stop streaming or
 // context.Background() if you want to stream indefinitely.
 func (c *Client) StreamLedgers(
