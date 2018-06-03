@@ -144,21 +144,92 @@ type Effect struct {
 
 type Operation struct {
 	Links struct {
+		Self        Link `json:"self"`
 		Transaction Link `json:"transaction"`
 		Effects     Link `json:"effects"`
 		Succeeds    Link `json:"succeeds"`
 		Precedes    Link `json:"precedes"`
 	} `json:"_links"`
-	ID              string `json:"id"`
-	PT              string `json:"paging_token"`
-	Account         string `json:"account"`
-	SourceAccount   string `json:"source_account"`
-	Type            string `json:"type"`
-	TypeI           int32  `json:"type_i"`
+
+	ID              string    `json:"id"`
+	PT              string    `json:"paging_token"`
+	SourceAccount   string    `json:"source_account"`
+	Type            string    `json:"type"`
+	TypeI           int32     `json:"type_i"`
+	LedgerCloseTime time.Time `json:"created_at"`
+	TransactionHash string    `json:"transaction_hash"`
+
+	// account_merge and create_account field
+	Account string `json:"account"`
+
+	// account_merge field
+	Into string `json:"into"`
+
+	// create_account fields
 	StartingBalance string `json:"starting_balance"`
-	CreatedAt       string `json:"created_at"`
 	Funder          string `json:"funder"`
-	TransactionHash string `json:"transaction_hash"`
+
+	// allow_trust, change_trust, payment and path_payment
+	Asset
+
+	// allow_trust and change_trust fields
+	Trustee string `json:"trustee"`
+	Trustor string `json:"trustor"`
+
+	// allow_trust fields
+	Authorize bool   `json:"authorize"`
+
+	// change_trust field
+	Limit   string `json:"limit"`
+
+	// payment, path_payment, create_passive_order and manage_offer field
+	Amount string `json:"amount"`
+
+	// payment and path_payment fields
+	From   string `json:"from"`
+	To     string `json:"to"`
+
+	// path_payment fields
+	Path              []Asset `json:"path"`
+	SourceAmount      string  `json:"source_amount"`
+	SourceMax         string  `json:"source_max"`
+	SourceAssetType   string  `json:"source_asset_type"`
+	SourceAssetCode   string  `json:"source_asset_code,omitempty"`
+	SourceAssetIssuer string  `json:"source_asset_issuer,omitempty"`
+
+	// create_passive_order and manage_offer fields
+	Price              string `json:"price"`
+	PriceR             Price 	`json:"price_r"`
+	BuyingAssetType    string `json:"buying_asset_type"`
+	BuyingAssetCode    string `json:"buying_asset_code,omitempty"`
+	BuyingAssetIssuer  string `json:"buying_asset_issuer,omitempty"`
+	SellingAssetType   string `json:"selling_asset_type"`
+	SellingAssetCode   string `json:"selling_asset_code,omitempty"`
+	SellingAssetIssuer string `json:"selling_asset_issuer,omitempty"`
+
+	// manage_offer field
+	OfferID int64 `json:"offer_id"`
+
+	// manage_data fields
+	Name  string `json:"name"`
+	Value string `json:"value"`
+
+	// set_options fields
+	HomeDomain    string `json:"home_domain,omitempty"`
+	InflationDest string `json:"inflation_dest,omitempty"`
+
+	MasterKeyWeight *int   `json:"master_key_weight,omitempty"`
+	SignerKey       string `json:"signer_key,omitempty"`
+	SignerWeight    *int   `json:"signer_weight,omitempty"`
+
+	SetFlags    []int    `json:"set_flags,omitempty"`
+	SetFlagsS   []string `json:"set_flags_s,omitempty"`
+	ClearFlags  []int    `json:"clear_flags,omitempty"`
+	ClearFlagsS []string `json:"clear_flags_s,omitempty"`
+
+	LowThreshold  *int `json:"low_threshold,omitempty"`
+	MedThreshold  *int `json:"med_threshold,omitempty"`
+	HighThreshold *int `json:"high_threshold,omitempty"`
 }
 
 type Ledger struct {
