@@ -13,6 +13,7 @@ import (
 	"sync"
 
 	"github.com/stellar/go/build"
+	"github.com/stellar/go/protocols/horizon"
 	"github.com/stellar/go/support/errors"
 	"github.com/stellar/go/xdr"
 )
@@ -126,7 +127,7 @@ type HTTP interface {
 }
 
 // EffectHandler is a function that is called when a new effect is received
-type EffectHandler func(Effect)
+type EffectHandler func(horizon.Effect)
 
 // LedgerHandler is a function that is called when a new ledger is received
 type LedgerHandler func(Ledger)

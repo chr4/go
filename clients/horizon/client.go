@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/stellar/go/protocols/horizon"
 	"github.com/stellar/go/support/errors"
 	"github.com/stellar/go/xdr"
 )
@@ -454,7 +455,7 @@ func (c *Client) StreamEffects(
 	c.fixURLOnce.Do(c.fixURL)
 	url := fmt.Sprintf("%s/effects", c.URL)
 	return c.stream(ctx, url, cursor, func(data []byte) error {
-		var effect Effect
+		var effect horizon.Effect
 		err = json.Unmarshal(data, &effect)
 		if err != nil {
 			return errors.Wrap(err, "Error unmarshaling data")

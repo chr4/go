@@ -48,7 +48,7 @@ type Account struct {
 }
 
 // GetNativeBalance returns the native balance of the account
-func (a Account) GetNativeBalance() (string, error){
+func (a Account) GetNativeBalance() (string, error) {
 	for _, balance := range a.Balances {
 		if balance.Asset.Type == "native" {
 			return balance.Balance, nil
@@ -126,6 +126,23 @@ type Balance struct {
 	Balance string `json:"balance"`
 	Limit   string `json:"limit,omitempty"`
 	base.Asset
+}
+
+type Effect struct {
+	Links struct {
+		Operation hal.Link `json:"operation"`
+		Succeeds  hal.Link `json:"succeeds"`
+		Precedes  hal.Link `json:"precedes"`
+	} `json:"_links"`
+	ID              string `json:"id"`
+	PT              string `json:"paging_token"`
+	Account         string `json:"account"`
+	Amount          string `json:"amount"`
+	Type            string `json:"type"`
+	TypeI           int32  `json:"type_i"`
+	StartingBalance string `json:"starting_balance"`
+	Balance
+	Signer
 }
 
 // HistoryAccount is a simple resource, used for the account collection actions.

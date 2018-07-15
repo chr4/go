@@ -50,25 +50,8 @@ type Offer = hProtocol.Offer
 // Currently used by LoadAccountMergeAmount only.
 type EffectsPage struct {
 	Embedded struct {
-		Records []Effect
+		Records []hProtocol.Effect
 	} `json:"_embedded"`
-}
-
-type Effect struct {
-	Links struct {
-		Operation Link `json:"operation"`
-		Succeeds  Link `json:"succeeds"`
-		Precedes  Link `json:"precedes"`
-	} `json:"_links"`
-	ID              string `json:"id"`
-	PT              string `json:"paging_token"`
-	Account         string `json:"account"`
-	Amount          string `json:"amount"`
-	Type            string `json:"type"`
-	TypeI           int32  `json:"type_i"`
-	StartingBalance string `json:"starting_balance"`
-	Balance
-	Signer
 }
 
 // TradeAggregationsPage returns a list of aggregated trade records, aggregated by resolution
